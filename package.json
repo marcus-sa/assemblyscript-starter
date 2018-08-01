@@ -1,0 +1,21 @@
+{
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && npm run start:server",
+    "start:server": "http-server . -o -c-1",
+    "build": "rollup -c && npm run build:untouched && npm run build:optimized",
+    "build:untouched": "asc src/index.ts -t build/untouched.wat -b build/untouched.wasm --validate --sourceMap --measure",
+    "build:optimized": "asc src/index.ts -t build/optimized.wat -b build/optimized.wasm -d build/optimized.d.ts --validate --sourceMap --measure --optimize"
+  },
+  "devDependencies": {
+    "@types/node": "^10.5.5",
+    "@types/webassembly-js-api": "^0.0.1",
+    "assemblyscript": "AssemblyScript/assemblyscript",
+    "glob": "^7.1.2",
+    "http-server": "^0.11.1",
+    "rollup": "^0.63.5",
+    "rollup-plugin-commonjs": "^9.1.4",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-typescript": "^0.8.1"
+  }
+}
