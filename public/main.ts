@@ -1,12 +1,25 @@
 import * as ASLoader from 'assemblyscript/lib/loader';
 
-ASLoader.instantiateStreaming(
-	fetch('../build/optimized.wasm') as any, // Declaration should be Promise<Response> and not Response
+let stream;
+
+export type WrapperFunc = (module: ASLoader.ASUtil, ...args: any[]) => any;
+
+function streamWrapper(cb: WrapperFunc) {
+	return async (...args: any[]) => {
+		const module = await stream;
+
+		cb(module, ...args);
+	}
+}
+
+stream = ASLoader.instantiateStreaming(
+	fetch('../build/optimized.wasm'),
 	{
-		console,
-		document,
-		env: {} // <-- should be optional property
+		console: {
+			log: streamWrapper((module, pointer: number) => {
+				console.log(module.getString(pointer));
+			}),
+		},
+		env: {},
 	},
-).then(() =>
-	console.log('Initialized...')
 );

@@ -1,13 +1,18 @@
-import 'allocator/arena';
+// import 'allocator/tl';
+
+import { h } from './h';
 
 // You can't use the declarations provided by TS somehow.
 // Probably due to the fact that the any type can't be used.
+
 declare namespace console {
-	function log(message: any): void;
+	function log(message: string): void;
 }
 
-declare namespace document {
-	function querySelector(selectors: string): HTMLElement;
-}
+const html = h('div', { className: 'whatever' },
+	h('span', {}),
+);
 
-console.log(document.querySelector('body'));
+console.log(JSON.stringify(html));
+// asm(`console.log('body')`);
+// console.log(document.querySelector('body'));

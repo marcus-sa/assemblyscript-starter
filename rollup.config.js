@@ -2,6 +2,8 @@ import typescript from 'rollup-plugin-typescript';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 
+import config from './public/tsconfig.json';
+
 export default {
 	input: './public/main.ts',
 	output: {
@@ -11,6 +13,6 @@ export default {
 	plugins: [
 		commonjs(),
 		resolve(),
-		typescript(),
+		typescript(config.compilerOptions),
 	],
 };
